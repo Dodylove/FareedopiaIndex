@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fareedopia - Community & Scientific Articles</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; background: #f7f7ff; }
+    header { background: #222; color: #fff; padding: 1rem 2rem; display: flex; align-items: center; }
+    header nav { margin-left: auto; }
+    header nav a { color: #fff; margin-left: 2rem; text-decoration: none; font-weight: bold; }
+    main { max-width: 800px; margin: 2rem auto; background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px #0001;}
+    h1, h2 { color: #333; }
+    form { margin-bottom: 2rem; }
+    input, textarea, select, button { width: 100%; padding: 0.5rem; margin-bottom: 1rem; font-size: 1rem; }
+    button { background: #222; color: #fff; border: none; cursor: pointer; }
+    .article-list { list-style: none; padding: 0; }
+    .article-list li { padding: 1rem; border-bottom: 1px solid #eee; }
+    .article-list li:last-child { border-bottom: none; }
+    .category { background: #e2e2ff; color: #333; border-radius: 4px; padding: 2px 8px; font-size: 0.9em; margin-left: 8px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div><strong>Fareedopia</strong></div>
+    <nav>
+      <a href="#write">Write Article</a>
+      <a href="#">Login with Discord</a>
+    </nav>
+  </header>
+  <main>
+    <h1>Welcome to Fareedopia</h1>
+    <p>A Discord-powered community for sharing scientific and community articles. Write, learn, and connect!</p>
+    <section id="write">
+      <h2>Write a New Article</h2>
+      <form id="articleForm">
+        <input type="text" id="title" placeholder="Article Title" required>
+        <select id="category">
+          <option value="science">Science</option>
+          <option value="community">Community</option>
+          <option value="news">News</option>
+        </select>
+        <textarea id="content" rows="8" placeholder="Your article here (Markdown supported)" required></textarea>
+        <button type="submit">Publish Article</button>
+      </form>
+      <div id="formMsg"></div>
+    </section>
+    <section>
+      <h2>Latest Articles</h2>
+      <ul class="article-list" id="articleList">
+        <!-- Articles will be listed here -->
+      </ul>
+    </section>
+  </main>
+  <script>
+    // Dummy article store
+    const articles = [
+      {title: 'The Beauty of Quantum Physics', category: 'science', content: 'Quantum physics explains...', id: 1},
+      {title: 'Community Growth Strategies', category: 'community', content: 'To grow our Discord...', id: 2}
+    ];
+
+    function renderArticles() {
+      const list = document.getElementById('articleList');
+      list.innerHTML = '';
+      articles.forEach(a => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${a.title}</strong> <span class="category">${a.category}</span>
+        <div>${a.content.substring(0, 100)}${a.content.length > 100 ? '...' : ''}</div>`;
+        list.appendChild(li);
+      });
+    }
+
+    // Article form submission
+    document.getElementById('articleForm').onsubmit = function(e) {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const category = document.getElementById('category').value;
+      const content = document.getElementById('content').value;
+      articles.unshift({title, category, content, id: articles.length+1});
+      renderArticles();
+      document.getElementById('formMsg').textContent = 'Article published!';
+      this.reset();
+    };
+
+    // Initial render
+    renderArticles();
+  </script>
+</body>
+</html>
